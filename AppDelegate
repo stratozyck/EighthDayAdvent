@@ -1,0 +1,69 @@
+//
+//  AppDelegate.m
+//  test
+//
+//  Created by N-- F-- on 1/9/16.
+//  Copyright (c) 2016 N--- F--. All rights reserved.
+//
+
+#import "AppDelegate.h"
+#import "GameScene.h"
+#import "mapgenerator.h"
+
+
+@implementation SKScene (Unarchive)
+
++ (instancetype)unarchiveFromFile:(NSString *)file {
+    /* Retrieve scene file path from the application bundle */
+    NSString *nodePath = [[NSBundle mainBundle] pathForResource:file ofType:@"sks"];
+    /* Unarchive the file to an SKScene object */
+    NSData *data = [NSData dataWithContentsOfFile:nodePath
+                                          options:NSDataReadingMappedIfSafe
+                                            error:nil];
+    NSKeyedUnarchiver *arch = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [arch setClass:self forClassName:@"SKScene"];
+    SKScene *scene = [arch decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+    [arch finishDecoding];
+        
+    return scene;
+}
+
+@end
+
+@implementation AppDelegate{
+    GameScene *myScene;
+    MyResponder *myResponse;
+
+}
+
+@synthesize window = _window;
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+   
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {
+    return YES;
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+    //[myScene prepareQuit]; 
+    return YES;
+}
+
+- (NSSize) windowWillResize:(NSWindow *)sender
+                 toSize:(NSSize)frameSize;
+{
+    //NSLog(@"size is changing");
+    //[myScene drawVisible]; //uncommenting this did not work either
+    return frameSize;
+}
+
+-(void) windowDidResize:(NSNotification *)notification{
+
+        [myScene drawVisible];
+
+    }
+
+@end
