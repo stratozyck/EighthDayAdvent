@@ -32,7 +32,6 @@
 
 @implementation AppDelegate{
     GameScene *myScene;
-    MyResponder *myResponse;
 
 }
 
